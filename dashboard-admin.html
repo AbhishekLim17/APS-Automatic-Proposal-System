@@ -20,7 +20,7 @@
         <ul>
           <li class="active"><i class="fas fa-home"></i> Dashboard</li>
           <li><i class="fas fa-file-alt"></i> Proposals</li>
-          <li><i class="fas fa-plus-circle"></i> Create New</li>
+          <li data-page="create-form"><i class="fas fa-plus-circle"></i> Create New</li>
           <li><i class="fas fa-cog"></i> Settings</li>
           <li><i class="fas fa-sign-out-alt"></i> Logout</li>
         </ul>
@@ -86,6 +86,148 @@
             </tr>
           </tbody>
         </table>
+      </section>
+
+      <!-- Create New Proposal Form -->
+      <section class="create-form" style="display: none;">
+        <h2>Create New Proposal</h2>
+        <form id="proposal-form" class="proposal-form">
+            <div class="form-section">
+                <h3>Water Report Analysis</h3>
+                <div class="parameter-grid">
+                    <div class="form-group">
+                        <label for="bod">Biological Oxygen Demand (BOD)</label>
+                        <div class="input-with-unit">
+                            <input type="number" id="bod" name="bod" required min="0" step="0.01">
+                            <span class="unit">mg/L</span>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="cod">Chemical Oxygen Demand (COD)</label>
+                        <div class="input-with-unit">
+                            <input type="number" id="cod" name="cod" required min="0" step="0.01">
+                            <span class="unit">mg/L</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="tds">Total Dissolved Solids (TDS)</label>
+                        <div class="input-with-unit">
+                            <input type="number" id="tds" name="tds" required min="0" step="0.01">
+                            <span class="unit">mg/L</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="tss">Total Suspended Solids (TSS)</label>
+                        <div class="input-with-unit">
+                            <input type="number" id="tss" name="tss" required min="0" step="0.01">
+                            <span class="unit">mg/L</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chemical-section">
+                    <h4>Chemical Analysis</h4>
+                    <div class="chemical-grid">
+                        <div class="form-group">
+                            <label class="checkbox-container">
+                                <input type="checkbox" id="heavy-metals" name="chemicals">
+                                <span class="checkmark"></span>
+                                Heavy Metals Present
+                            </label>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="checkbox-container">
+                                <input type="checkbox" id="oil-grease" name="chemicals">
+                                <span class="checkmark"></span>
+                                Oil & Grease
+                            </label>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="checkbox-container">
+                                <input type="checkbox" id="phenols" name="chemicals">
+                                <span class="checkmark"></span>
+                                Phenolic Compounds
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="chemical-details">
+                        <div class="form-group">
+                            <label for="ph">pH Value</label>
+                            <input type="number" id="ph" name="ph" min="0" max="14" step="0.1">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="chemical-notes">Additional Chemical Details</label>
+                            <textarea id="chemical-notes" name="chemical-notes" 
+                                placeholder="Specify any other chemicals present and their concentrations..."
+                                rows="3"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3>Product Selection</h3>
+                <div class="checkbox-grid">
+                    <label class="checkbox-container">
+                        <input type="checkbox" name="products" value="ETP">
+                        <span class="checkmark"></span>
+                        ETP
+                    </label>
+                    <label class="checkbox-container">
+                        <input type="checkbox" name="products" value="STP">
+                        <span class="checkmark"></span>
+                        STP
+                    </label>
+                    <label class="checkbox-container">
+                        <input type="checkbox" name="products" value="RO">
+                        <span class="checkmark"></span>
+                        RO
+                    </label>
+                    <label class="checkbox-container">
+                        <input type="checkbox" name="products" value="MPSC">
+                        <span class="checkmark"></span>
+                        MPSC
+                    </label>
+                    <label class="checkbox-container">
+                        <input type="checkbox" name="products" value="HRU">
+                        <span class="checkmark"></span>
+                        HRU
+                    </label>
+                    <label class="checkbox-container">
+                        <input type="checkbox" name="products" value="UPW">
+                        <span class="checkmark"></span>
+                        UPW
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3>Plant Details</h3>
+                <div class="form-group">
+                    <label for="plant-size">Plant Size (m³/day)</label>
+                    <input type="number" id="plant-size" name="plant-size" required min="0" step="1">
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="button" class="btn btn-secondary" onclick="generateProposal('pdf')">
+                    <i class="fas fa-file-pdf"></i> Generate PDF
+                </button>
+                <button type="button" class="btn btn-secondary" onclick="generateProposal('docx')">
+                    <i class="fas fa-file-word"></i> Generate DOCX
+                </button>
+                <button type="button" class="btn btn-primary" onclick="generateProposal('both')">
+                    <i class="fas fa-file-export"></i> Generate Both
+                </button>
+            </div>
+        </form>
       </section>
     </main>
   </div>
