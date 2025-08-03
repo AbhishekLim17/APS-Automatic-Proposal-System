@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Login | Proposal Generator</title>
   <link rel="stylesheet" href="css/style.css" />
   <link rel="icon" type="image/png" href="images/logo.png" />
@@ -16,10 +16,12 @@
     <form id="login-form">
       <input type="email" id="email" placeholder="Email" required class="input-field" />
       <input type="password" id="password" placeholder="Password" required class="input-field" />
-      <button type="submit" class="login-button">Login</button>
+      <button type="submit" class="login-button">
+        <span class="button-text">Login</span>
+        <span class="loading-spinner hidden"></span>
+      </button>
       <p id="error-message" class="error"></p>
     </form>
   </div>
-
 </body>
 </html>

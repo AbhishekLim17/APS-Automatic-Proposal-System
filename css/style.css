@@ -1,18 +1,19 @@
 :root {
-  --bg-color: #ffffff;
-  --text-color: #000000;
-  --card-bg: rgba(255, 255, 255, 0.9);
+  --bg-color: #f5f7fa;
+  --text-color: #2d3436;
+  --card-bg: rgba(255, 255, 255, 0.95);
   --input-bg: #ffffff;
-  --input-border: #ccc;
+  --input-border: #e0e0e0;
   --btn-bg: #f5b700; /* Magnetar yellow */
   --btn-text: #000000;
+  --card-shadow: rgba(0, 0, 0, 0.1);
 }
 
 body {
   margin: 0;
   padding: 0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: var(--bg-color);
+  background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%);
   color: var(--text-color);
   display: flex;
   justify-content: center;
@@ -25,18 +26,28 @@ body {
 
 .login-card {
   background-color: var(--card-bg);
-  backdrop-filter: blur(15px);
-  padding: 2rem;
-  border-radius: 20px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  padding: 2.5rem;
+  border-radius: 24px;
+  box-shadow: 
+    0 10px 20px var(--card-shadow),
+    0 6px 6px rgba(0, 0, 0, 0.05);
+  transform: translateY(0);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   text-align: center;
   width: 340px;
-  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+.login-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 
+    0 15px 30px var(--card-shadow),
+    0 8px 8px rgba(0, 0, 0, 0.05);
 }
 
 .logo {
   max-width: 150px;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
 }
 
 h2 {
@@ -49,18 +60,21 @@ h2 {
   width: 100%;
   padding: 0.75rem;
   margin: 0.5rem 0;
-  border: 1px solid var(--input-border);
+  border: 2px solid var(--input-border);
   border-radius: 10px;
   background-color: var(--input-bg);
   color: var(--text-color);
   font-size: 1rem;
-  transition: border 0.3s ease, background-color 0.3s ease;
+  transition: all 0.3s ease;
+  height: auto; /* Reset height */
+  min-height: unset; /* Remove minimum height */
 }
 
 .input-field:focus {
   outline: none;
   border-color: var(--btn-bg);
-  box-shadow: 0 0 4px var(--btn-bg);
+  box-shadow: 0 0 0 4px rgba(245, 183, 0, 0.1);
+  transform: translateY(-1px);
 }
 
 .login-button {
@@ -73,12 +87,22 @@ h2 {
   cursor: pointer;
   font-size: 1rem;
   margin-top: 0.5rem;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  transform: translateY(0);
+  transition: all 0.3s ease;
+  height: auto; /* Reset height */
+  min-height: unset; /* Remove minimum height */
 }
 
 .login-button:hover {
-  opacity: 0.95;
-  box-shadow: 0 0 8px rgba(245, 183, 0, 0.6);
+  opacity: 1;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(245, 183, 0, 0.3);
+}
+
+.login-button:active {
+  transform: translateY(0);
 }
 
 .error {
@@ -86,3 +110,77 @@ h2 {
   font-size: 0.85rem;
   margin-top: 0.5rem;
 }
+
+/* Add these media queries at the end of your CSS file */
+
+@media screen and (max-width: 480px) {
+  .login-card {
+    width: 90%;
+    max-width: 320px;
+    padding: 1.5rem;
+    margin: 1rem;
+  }
+
+  .logo {
+    max-width: 120px;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  .input-field {
+    padding: 0.7rem;
+    font-size: 16px;
+    height: auto;
+  }
+
+  .login-button {
+    padding: 0.7rem;
+    font-size: 16px;
+    height: auto;
+  }
+}
+
+/* Fix for iOS input shadow */
+input {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+/* Prevent text size adjustment on orientation change */
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Improve touch targets */
+button, 
+input {
+  min-height: 44px; /* Apple's recommended minimum touch target size */
+}
+
+/* Add smooth scrolling for iOS momentum scroll */
+body {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Fix for iPhone X+ safe areas */
+@supports (padding: max(0px)) {
+  body {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* Update the touch target rules */
+@media (hover: none) and (pointer: coarse) {
+  /* Only apply larger touch targets on actual touch devices */
+  button, 
+  input {
+    min-height: 36px; /* Reduced from 44px */
+  }
+}
+
