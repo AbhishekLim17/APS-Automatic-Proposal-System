@@ -41,6 +41,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Get form data
         const formData = {
+            companyDetails: {
+                name: document.getElementById('company-name').value,
+                address: document.getElementById('company-address').value,
+                type: document.getElementById('company-type').value,
+                hasExistingTreatment: document.querySelector('input[name="existing-treatment"]:checked')?.value === 'yes',
+                existingTreatmentDetails: document.getElementById('existing-details').value
+            },
             waterReport: {
                 bod: document.getElementById('bod').value,
                 cod: document.getElementById('cod').value,
@@ -55,7 +62,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             },
             products: Array.from(document.querySelectorAll('input[name="products"]:checked'))
-                         .map(cb => cb.value),
+                .map(cb => ({
+                    productName: cb.value,
+                    capacity: document.getElementById(`${cb.value.toLowerCase()}-capacity`).value,
+                    price: document.getElementById(`${cb.value.toLowerCase()}-price`).value
+                })),
             plantSize: document.getElementById('plant-size').value
         };
 
@@ -86,6 +97,71 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!e.target.checked) {
             textarea.value = '';
         }
+    });
+
+    // Handle existing treatment radio buttons
+    const radioButtons = document.querySelectorAll('input[name="existing-treatment"]');
+    const existingDetails = document.querySelector('.existing-details');
+
+    radioButtons.forEach(radio => {
+        radio.addEventListener('change', (e) => {
+            existingDetails.style.display = e.target.value === 'yes' ? 'block' : 'none';
+            if (e.target.value === 'no') {
+                document.getElementById('existing-details').value = '';
+            }
+        });
+    });
+
+    function updateTotal() {
+        const products = ['etp', 'stp', 'ro', 'mpsc', 'hru', 'upw'];
+        let total = 0;
+
+        products.forEach(product => {
+            const checkbox = document.querySelector(`input[value="${product.toUpperCase()}"]`);
+            const priceInput = document.getElementById(`${product}-price`);
+            
+            if (checkbox?.checked && priceInput?.value) {
+                total += parseFloat(priceInput.value);
+            }
+        });
+
+        document.getElementById('total-price').textContent = 
+            new Intl.NumberFormat('en-IN', {
+                style: 'currency',
+                currency: 'INR'
+            }).format(total);
+    }
+
+    // Add event listeners
+    const inputs = document.querySelectorAll('input[type="number"], input[type="checkbox"]');
+    inputs.forEach(input => {
+        input.addEventListener('change', updateTotal);
+        input.addEventListener('input', updateTotal);
+    });
+
+    // Handle company type selection
+    const companyTypeSelect = document.getElementById('company-type');
+    const otherTypeDiv = document.querySelector('.other-type');
+
+    companyTypeSelect?.addEventListener('change', (e) => {
+        otherTypeDiv.style.display = e.target.value === 'other' ? 'block' : 'none';
+        if (e.target.value !== 'other') {
+            document.getElementById('other-company-type').value = '';
+        }
+    });
+
+    // Sidebar toggle functionality
+    const sidebarToggle = document.querySelector('.sidebar-toggle');
+    // Load saved state
+    const sidebarState = localStorage.getItem('sidebarMinimized');
+    if (sidebarState === 'true') {
+        sidebar.classList.add('minimized');
+    }
+
+    // Toggle sidebar
+    sidebarToggle.addEventListener('click', () => {
+        sidebar.classList.toggle('minimized');
+        localStorage.setItem('sidebarMinimized', sidebar.classList.contains('minimized'));
     });
 });
 

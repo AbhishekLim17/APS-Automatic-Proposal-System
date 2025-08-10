@@ -7,24 +7,51 @@
   <link rel="stylesheet" href="css/dashboard.css" />
   <link rel="icon" type="image/png" href="images/logo.png" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Add these before closing head tag -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://unpkg.com/docx@7.8.2/build/index.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 </head>
 <body>
   <div class="container">
     <!-- Sidebar -->
     <aside class="sidebar">
-      <div class="logo">
-        <img src="images/logo.png" alt="Logo" />
-        <h2>Magnetar</h2>
+      <div class="logo-container">
+        <div class="logo">
+          <img src="images/logo.png" alt="magnetarglobal logo" />
+          <h2>Magnetar</h2>
+        </div>
       </div>
-      <nav>
-        <ul>
-          <li class="active"><i class="fas fa-home"></i> Dashboard</li>
-          <li><i class="fas fa-file-alt"></i> Proposals</li>
-          <li data-page="create-form"><i class="fas fa-plus-circle"></i> Create New</li>
-          <li><i class="fas fa-cog"></i> Settings</li>
-          <li><i class="fas fa-sign-out-alt"></i> Logout</li>
-        </ul>
-      </nav>
+      <div class="nav-container">
+        <button class="sidebar-toggle">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <nav>
+          <ul>
+            <li class="active" data-title="Dashboard">
+                <i class="fas fa-home"></i> 
+                <span>Dashboard</span>
+            </li>
+            <li data-title="Proposals">
+                <i class="fas fa-file-alt"></i> 
+                <span>Proposals</span>
+            </li>
+            <li data-page="create-form" data-title="Create New">
+                <i class="fas fa-plus-circle"></i> 
+                <span>Create New</span>
+            </li>
+            <li data-title="Settings">
+                <i class="fas fa-cog"></i> 
+                <span>Settings</span>
+            </li>
+            <li data-title="Logout">
+                <i class="fas fa-sign-out-alt"></i> 
+                <span>Logout</span>
+            </li>
+          </ul>
+        </nav>
+      </div>
     </aside>
 
     <!-- Main Content -->
@@ -92,6 +119,65 @@
       <section class="create-form" style="display: none;">
         <h2>Create New Proposal</h2>
         <form id="proposal-form" class="proposal-form">
+            <!-- Add this new section before Water Report Analysis -->
+            <div class="form-section">
+                <h3>Company Details</h3>
+                <div class="company-grid">
+                    <div class="form-group">
+                        <label for="company-name">Company Name</label>
+                        <input type="text" id="company-name" name="company-name" required>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="company-address">Address</label>
+                        <textarea id="company-address" name="company-address" required rows="2"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="company-type">Type of Company</label>
+                        <select id="company-type" name="company-type" required>
+                            <option value="">Select company type</option>
+                            <option value="manufacturing">Manufacturing</option>
+                            <option value="pharmaceutical">Pharmaceutical</option>
+                            <option value="food-beverage">Food & Beverage</option>
+                            <option value="chemical">Chemical</option>
+                            <option value="textile">Textile</option>
+                            <option value="utility-centres">Utility Centres</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group other-type" style="display: none;">
+                        <label for="other-company-type">Specify Company Type</label>
+                        <input type="text" id="other-company-type" name="other-company-type" 
+                               placeholder="Please specify your company type">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="existing-treatment">Existing Water Treatment</label>
+                        <div class="radio-group">
+                            <label class="radio-container">
+                                <input type="radio" name="existing-treatment" value="yes">
+                                <span class="radio-mark"></span>
+                                Yes
+                            </label>
+                            <label class="radio-container">
+                                <input type="radio" name="existing-treatment" value="no">
+                                <span class="radio-mark"></span>
+                                No
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group existing-details" style="display: none;">
+                        <label for="existing-details">Existing Treatment Details</label>
+                        <textarea id="existing-details" name="existing-details" 
+                            placeholder="Please specify current treatment facility details..."
+                            rows="2"></textarea>
+                    </div>
+                </div>
+            </div>
+
             <div class="form-section">
                 <h3>Water Report Analysis</h3>
                 <div class="parameter-grid">
@@ -173,41 +259,133 @@
             </div>
 
             <div class="form-section">
-                <h3>Product Selection</h3>
-                <div class="checkbox-grid">
-                    <label class="checkbox-container">
-                        <input type="checkbox" name="products" value="ETP">
-                        <span class="checkmark"></span>
-                        ETP
-                    </label>
-                    <label class="checkbox-container">
-                        <input type="checkbox" name="products" value="STP">
-                        <span class="checkmark"></span>
-                        STP
-                    </label>
-                    <label class="checkbox-container">
-                        <input type="checkbox" name="products" value="RO">
-                        <span class="checkmark"></span>
-                        RO
-                    </label>
-                    <label class="checkbox-container">
-                        <input type="checkbox" name="products" value="MPSC">
-                        <span class="checkmark"></span>
-                        MPSC
-                    </label>
-                    <label class="checkbox-container">
-                        <input type="checkbox" name="products" value="HRU">
-                        <span class="checkmark"></span>
-                        HRU
-                    </label>
-                    <label class="checkbox-container">
-                        <input type="checkbox" name="products" value="UPW">
-                        <span class="checkmark"></span>
-                        UPW
-                    </label>
+                <h3>Product & Pricing Details</h3>
+                <div class="product-grid">
+                    
+                    <!-- STP -->
+                    <div class="product-card">
+                        <label class="checkbox-container">
+                            <input type="checkbox" name="products" value="STP">
+                            <span class="checkmark"></span>
+                            STP (Sewage Treatment Plant)
+                        </label>
+                        <div class="price-inputs">
+                            <div class="form-group">
+                                <label for="stp-capacity">Capacity (m³/day)</label>
+                                <input type="number" id="stp-capacity" min="0" step="1">
+                            </div>
+                            <div class="form-group">
+                                <label for="stp-price">Price (₹)</label>
+                                <input type="number" id="stp-price" min="0" step="1000">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- RO -->
+                    <div class="product-card">
+                        <label class="checkbox-container">
+                            <input type="checkbox" name="products" value="RO">
+                            <span class="checkmark"></span>
+                            RO (Reverse Osmosis)
+                        </label>
+                        <div class="price-inputs">
+                            <div class="form-group">
+                                <label for="ro-capacity">Capacity (m³/day)</label>
+                                <input type="number" id="ro-capacity" min="0" step="1">
+                            </div>
+                            <div class="form-group">
+                                <label for="ro-price">Price (₹)</label>
+                                <input type="number" id="ro-price" min="0" step="1000">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- MPSC -->
+                    <div class="product-card">
+                        <label class="checkbox-container">
+                            <input type="checkbox" name="products" value="MPSC">
+                            <span class="checkmark"></span>
+                            MPSC (Multi-Pan Salt Crystallizer)
+                        </label>
+                        <div class="price-inputs">
+                            <div class="form-group">
+                                <label for="mpsc-capacity">Capacity (m³/day)</label>
+                                <input type="number" id="mpsc-capacity" min="0" step="1">
+                            </div>
+                            <div class="form-group">
+                                <label for="mpsc-price">Price (₹)</label>
+                                <input type="number" id="mpsc-price" min="0" step="1000">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- HRU -->
+                    <div class="product-card">
+                        <label class="checkbox-container">
+                            <input type="checkbox" name="products" value="HRU">
+                            <span class="checkmark"></span>
+                            HRU (Heat Recovery Unit)
+                        </label>
+                        <div class="price-inputs">
+                            <div class="form-group">
+                                <label for="hru-capacity">Capacity (m³/day)</label>
+                                <input type="number" id="hru-capacity" min="0" step="1">
+                            </div>
+                            <div class="form-group">
+                                <label for="hru-price">Price (₹)</label>
+                                <input type="number" id="hru-price" min="0" step="1000">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- UPW -->
+                    <div class="product-card">
+                        <label class="checkbox-container">
+                            <input type="checkbox" name="products" value="UPW">
+                            <span class="checkmark"></span>
+                            UPW (Ultra Pure Water)
+                        </label>
+                        <div class="price-inputs">
+                            <div class="form-group">
+                                <label for="upw-capacity">Capacity (m³/day)</label>
+                                <input type="number" id="upw-capacity" min="0" step="1">
+                            </div>
+                            <div class="form-group">
+                                <label for="upw-price">Price (₹)</label>
+                                <input type="number" id="upw-price" min="0" step="1000">
+                            </div>
+                        </div>
+                    </div>
+                
+                <!-- ETP 
+                    <div class="product-card">
+                        <label class="checkbox-container">
+                            <input type="checkbox" name="products" value="ETP">
+                            <span class="checkmark"></span>
+                            ETP (Effluent Treatment Plant)
+                        </label>
+                        <div class="price-inputs">
+                            <div class="form-group">
+                                <label for="etp-capacity">Capacity (m³/day)</label>
+                                <input type="number" id="etp-capacity" min="0" step="1">
+                            </div>
+                            <div class="form-group">
+                                <label for="etp-price">Price (₹)</label>
+                                <input type="number" id="etp-price" min="0" step="1000">
+                            </div>
+                        </div>
+                    </div>
+                    -->
+                </div>
+                <div class="total-section">
+                    <h4>Total Cost Summary</h4>
+                    <div class="total-display">
+                        <span>Total (Excluding Taxes & Transportation):</span>
+                        <span id="total-price">₹0</span>
+                    </div>
                 </div>
             </div>
-
+            <!--
             <div class="form-section">
                 <h3>Plant Details</h3>
                 <div class="form-group">
@@ -215,16 +393,15 @@
                     <input type="number" id="plant-size" name="plant-size" required min="0" step="1">
                 </div>
             </div>
-
+            -->
             <div class="form-actions">
-                <button type="button" class="btn btn-secondary" onclick="generateProposal('pdf')">
-                    <i class="fas fa-file-pdf"></i> Generate PDF
+                <button type="button" class="btn btn-primary" onclick="generateProposal('pdf')">
+                    <i class="fas fa-file-pdf"></i>
+                    Generate PDF
                 </button>
-                <button type="button" class="btn btn-secondary" onclick="generateProposal('docx')">
-                    <i class="fas fa-file-word"></i> Generate DOCX
-                </button>
-                <button type="button" class="btn btn-primary" onclick="generateProposal('both')">
-                    <i class="fas fa-file-export"></i> Generate Both
+                <button type="button" class="btn btn-primary" onclick="generateProposal('docx')">
+                    <i class="fas fa-file-word"></i>
+                    Generate DOCX
                 </button>
             </div>
         </form>
@@ -233,5 +410,6 @@
   </div>
 
   <script src="js/dashboard.js"></script>
+  <script src="js/document-generator.js"></script>
 </body>
 </html>
