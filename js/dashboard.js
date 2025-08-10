@@ -32,59 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Form validation and submission
-    function generateProposal(format) {
-        const form = document.getElementById('proposal-form');
-        if (!form.checkValidity()) {
-            form.reportValidity();
-            return;
-        }
-
-        // Get form data
-        const formData = {
-            companyDetails: {
-                name: document.getElementById('company-name').value,
-                address: document.getElementById('company-address').value,
-                type: document.getElementById('company-type').value,
-                hasExistingTreatment: document.querySelector('input[name="existing-treatment"]:checked')?.value === 'yes',
-                existingTreatmentDetails: document.getElementById('existing-details').value
-            },
-            waterReport: {
-                bod: document.getElementById('bod').value,
-                cod: document.getElementById('cod').value,
-                tds: document.getElementById('tds').value,
-                tss: document.getElementById('tss').value,
-                ph: document.getElementById('ph').value,
-                chemicals: {
-                    heavyMetals: document.getElementById('heavy-metals').checked,
-                    oilGrease: document.getElementById('oil-grease').checked,
-                    phenols: document.getElementById('phenols').checked,
-                    additionalNotes: document.getElementById('chemical-notes').value
-                }
-            },
-            products: Array.from(document.querySelectorAll('input[name="products"]:checked'))
-                .map(cb => ({
-                    productName: cb.value,
-                    capacity: document.getElementById(`${cb.value.toLowerCase()}-capacity`).value,
-                    price: document.getElementById(`${cb.value.toLowerCase()}-price`).value
-                })),
-            plantSize: document.getElementById('plant-size').value
-        };
-
-        // Handle generation based on format
-        switch(format) {
-            case 'pdf':
-                generatePDF(formData);
-                break;
-            case 'docx':
-                generateDOCX(formData);
-                break;
-            case 'both':
-                generatePDF(formData);
-                generateDOCX(formData);
-                break;
-        }
-    }
-
+    // Using generateProposal from document-generator.js
     window.generateProposal = generateProposal;
 
     // Chemical treatment checkbox handler
@@ -165,13 +113,3 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// Add these functions according to your PDF/DOCX generation logic
-function generatePDF(data) {
-    console.log('Generating PDF:', data);
-    // Add your PDF generation logic here
-}
-
-function generateDOCX(data) {
-    console.log('Generating DOCX:', data);
-    // Add your DOCX generation logic here
-}

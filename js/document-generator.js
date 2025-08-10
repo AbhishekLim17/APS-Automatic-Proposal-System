@@ -162,7 +162,7 @@ async function generatePDF(data) {
 }
 
 async function generateDOCX(data) {
-    const { Document, Paragraph, TextRun, Table, TableRow, TableCell, HeadingLevel } = docx;
+    const { Document, Paragraph, TextRun, Table, TableRow, TableCell, HeadingLevel, Packer} = docx;
 
     const doc = new Document({
         sections: [{
